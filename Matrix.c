@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define FLOAT_PLACEHOLDER "%5.2f"
+#define FLOAT_PLACEHOLDER "%5.2f "
 
 
 MATRIX matCreate(int height, int width)
@@ -130,4 +130,99 @@ void matMakeRandom(MATRIX* matInput, int randMax)
 		}
 	}
 	errno = 0;
+}
+
+void mergeArray(int* a, int first, int mid, int last, int* count)
+{
+	int* temp = (int*)malloc((last - first + 1) * sizeof(int));
+	int i = first, j = mid + 1, m = mid, n = last, k = 0;
+	while (i <= m && j <= n)
+	{
+		if (a[i] <= a[j])
+			temp[k++] = a[i++];
+		else
+		{
+			temp[k++] = a[j++];
+			*count += mid - i + 1;
+		}
+	}
+	while (i <= m)
+		temp[k++] = a[i++];
+	while (j <= n)
+		temp[k++] = a[j++];
+	for (i = 0; i < k; ++i)
+		a[first + i] = temp[i];
+	free(temp);
+}
+
+void mergeSort(int* a, int first, int last, int* count)
+{
+	if (first < last)
+	{
+		int mid = (first + last) / 2;
+		mergeSort(a, first, mid, count);
+		mergeSort(a, mid + 1, last, count);
+		mergeArray(a, first, mid, last, count);
+	}
+}
+
+int getReversedNumber(const int* numList, int num)
+{
+	int* tempList = (int*)malloc(num * sizeof(int));
+	int reversedNumber = 0;
+	for (int i = 0; i < num; i++)
+	{
+		tempList[i] = numList[i];
+	}
+	mergeSort(tempList, 0, num - 1, &reversedNumber);
+	free(tempList);
+	return reversedNumber;
+}
+
+void makePermutation(int* numList, int first, int last, float* tempAnswer, MATRIX matMatrix)
+{
+	if (first == last)
+	{
+		float singleAnswer = 1.00;
+		singleAnswer *= (getReversedNumber(numList, matMatrix.matWidth) % 2 == 1) ? -1.0 : 1.0;
+		for (int j = 0; j < matMatrix.matWidth; j++)
+		{
+			singleAnswer *= matMatrix.matData[j][numList[j]];
+		}
+		*tempAnswer += singleAnswer;
+		return;
+	}
+
+	int tempExchange;
+	for (int i = first; i <= last; i++)
+	{
+		tempExchange = numList[first];
+		numList[first] = numList[i];
+		numList[i] = tempExchange;
+
+		makePermutation(numList, first + 1, last, tempAnswer, matMatrix);
+
+		tempExchange = numList[first];
+		numList[first] = numList[i];
+		numList[i] = tempExchange;
+	}
+}
+
+float matDeterminant(MATRIX matMatrix)
+{
+	if (matMatrix.matHeight != matMatrix.matWidth)
+	{
+		errno = 1;
+		return 0.00;
+	}
+	int* indexList = (int*)malloc(matMatrix.matHeight * sizeof(int));
+	for (int i = 0; i < matMatrix.matHeight; i++)
+	{
+		indexList[i] = i;
+	}
+	float answer = 0;
+	makePermutation(indexList, 0, matMatrix.matHeight - 1, &answer, matMatrix);
+	free(indexList);
+	errno = 0;
+	return answer;
 }

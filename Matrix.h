@@ -15,5 +15,6 @@ MATRIX matTranspose(MATRIX matOrigin);
 MATRIX matMultiply(MATRIX matA, MATRIX matB);
 MATRIX matConvolute(MATRIX matOrigin, MATRIX matConvKernel);
 void matMakeRandom(MATRIX* matInput, int randMax);
+float matDeterminant(MATRIX matMatrix);
 
 #endif
