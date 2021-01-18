@@ -1,0 +1,2 @@
+D:\GitHub\C-Matrix\x64\Debug\Matrix.exe
+D:\GitHub\C-Matrix\x64\Debug\Matrix.pdb
