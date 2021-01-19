@@ -34,8 +34,18 @@ int main(void)
 	matMakeRandom(&mat, 5);
 	matPrint(mat);
 
+	puts("");
 
-	printf("%f", matDeterminant(mat));
+	MATRIX matC;
+	matC = matCominor(mat, 2, 1);
+	matPrint(matC);
+
+	puts("");
+
+	printf(PRINT_PLACEHOLDER, matDeterminant(mat));
+	printf(PRINT_PLACEHOLDER, matDeterminant(matC));
 	matFree(mat);
+	matFree(matC);
+
 	return 0;
 }

@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define FLOAT_PLACEHOLDER "%5.2f "
 
 
 MATRIX matCreate(int height, int width)
@@ -12,11 +11,11 @@ MATRIX matCreate(int height, int width)
 	MATRIX matMatrix;
 	matMatrix.matHeight = height;
 	matMatrix.matWidth = width;
-	matMatrix.matData = (float**)malloc(height * sizeof(float*));
+	matMatrix.matData = (MATRIX_TYPE**)malloc(height * sizeof(MATRIX_TYPE*));
 	for (int i = 0; i < height; i++)
 	{
-		matMatrix.matData[i] = (float*)malloc(width * sizeof(float));
-		memset(matMatrix.matData[i], 0, width * sizeof(float));
+		matMatrix.matData[i] = (MATRIX_TYPE*)malloc(width * sizeof(MATRIX_TYPE));
+		memset(matMatrix.matData[i], 0, width * sizeof(MATRIX_TYPE));
 	}
 	errno = 0;
 	return matMatrix;
@@ -39,7 +38,7 @@ void matPrint(MATRIX matMatrix)
 		printf("[ ");
 		for (int j = 0; j < matMatrix.matWidth; j++)
 		{
-			printf(FLOAT_PLACEHOLDER, matMatrix.matData[i][j]);
+			printf(PRINT_PLACEHOLDER, matMatrix.matData[i][j]);
 		}
 		printf(" ]\n");
 	}
@@ -179,11 +178,11 @@ int getReversedNumber(const int* numList, int num)
 	return reversedNumber;
 }
 
-void makePermutation(int* numList, int first, int last, float* tempAnswer, MATRIX matMatrix)
+void makePermutation(int* numList, int first, int last, MATRIX_TYPE* tempAnswer, MATRIX matMatrix)
 {
 	if (first == last)
 	{
-		float singleAnswer = 1.00;
+		MATRIX_TYPE singleAnswer = 1.00;
 		singleAnswer *= (getReversedNumber(numList, matMatrix.matWidth) % 2 == 1) ? -1.0 : 1.0;
 		for (int j = 0; j < matMatrix.matWidth; j++)
 		{
@@ -208,7 +207,7 @@ void makePermutation(int* numList, int first, int last, float* tempAnswer, MATRI
 	}
 }
 
-float matDeterminant(MATRIX matMatrix)
+MATRIX_TYPE matDeterminant(MATRIX matMatrix)
 {
 	if (matMatrix.matHeight != matMatrix.matWidth)
 	{
@@ -220,9 +219,33 @@ float matDeterminant(MATRIX matMatrix)
 	{
 		indexList[i] = i;
 	}
-	float answer = 0;
+	MATRIX_TYPE answer = 0;
 	makePermutation(indexList, 0, matMatrix.matHeight - 1, &answer, matMatrix);
 	free(indexList);
 	errno = 0;
 	return answer;
+}
+
+MATRIX matCominor(MATRIX matOrigin, int row, int column)
+{
+	MATRIX matCominorMatrix = matCreate(matOrigin.matHeight - 1, matOrigin.matWidth - 1);
+	for (int i = 0, k = 0; i < matOrigin.matHeight; i++)
+	{
+		if (i == row)
+		{
+			continue;
+		}
+		for (int j = 0, l = 0; j < matOrigin.matWidth; j++)
+		{
+			if (j == column)
+			{
+				continue;
+			}
+			matCominorMatrix.matData[k][l] = matOrigin.matData[i][j];
+			l++;
+		}
+		k++;
+	}
+	errno = 0;
+	return matCominorMatrix;
 }
