@@ -1,5 +1,8 @@
-﻿  main.c
+﻿  Matrix.c
+D:\GitHub\C-Matrix\Matrix.c(128,55): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+  main.c
 D:\GitHub\C-Matrix\main.c(11,17): warning C4273: “_errno”: dll 链接不一致
 D:\Windows Kits\10\Include\10.0.18362.0\ucrt\stddef.h(31,27): message : 参见“_errno”的前一个定义
-D:\GitHub\C-Matrix\main.c(15,15): warning C4244: “函数”: 从“time_t”转换到“unsigned int”，可能丢失数据
+D:\GitHub\C-Matrix\main.c(15,18): warning C4244: “函数”: 从“time_t”转换到“unsigned int”，可能丢失数据
+  正在生成代码...
   Matrix.vcxproj -> D:\GitHub\C-Matrix\x64\Debug\Matrix.exe
