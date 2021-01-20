@@ -2,13 +2,11 @@
 #define _CRT_SECURE_NO_WARNINGS
 #endif
 
-#include "Matrix.h"
+#include "matrix.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
 #include <time.h>
-
-extern int errno;
 
 int main(void)
 {
@@ -30,7 +28,7 @@ int main(void)
     //matFree(matM);
 
     MATRIX mat;
-    mat = matCreate(3,3);
+    mat = matCreate(6,5);
     matMakeRandom(mat, 5);
     //mat.matData[0][0] = 2;
     //mat.matData[0][1] = 4;
@@ -41,7 +39,6 @@ int main(void)
     //mat.matData[2][1] = 2;
     //mat.matData[2][2] = 3;
     matPrint(mat);
-    printf(PRINT_PLACEHOLDER, matDeterminant(mat));
     puts("");
 
     MATRIX matE = matMakeEchelon(mat);
