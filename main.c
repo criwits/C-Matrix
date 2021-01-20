@@ -30,28 +30,40 @@ int main(void)
     //matFree(matM);
 
     MATRIX mat;
-    mat = matCreate(3, 3);
-    matMakeRandom(&mat, 5);
+    mat = matCreate(3,3);
+    matMakeRandom(mat, 5);
+    //mat.matData[0][0] = 2;
+    //mat.matData[0][1] = 4;
+    //mat.matData[0][2] = 3;
+
+    //mat.matData[1][2] = 2;
+    //mat.matData[2][0] = 1;
+    //mat.matData[2][1] = 2;
+    //mat.matData[2][2] = 3;
     matPrint(mat);
-
-    puts("");
-
-    MATRIX matC;
-    matC = matInverse(mat);
-    matPrint(matC);
-
-    puts("");
-
-    MATRIX matX;
-    matX = matProduct(mat, matC);
-    matPrint(matX);
-    puts("");
-
     printf(PRINT_PLACEHOLDER, matDeterminant(mat));
+    puts("");
+
+    MATRIX matE = matMakeEchelon(mat);
+    matPrint(matE);
+    printf("%d", matRank(mat));
+
+    //MATRIX matC;
+    //matC = matInverse(mat);
+    //matPrint(matC);
+
+    //puts("");
+
+    //MATRIX matX;
+    //matX = matProduct(mat, matC);
+    //matPrint(matX);
+    //puts("");
+
+    //printf(PRINT_PLACEHOLDER, matDeterminant(mat));
     //printf(PRINT_PLACEHOLDER, matDeterminant(matC));
     matFree(mat);
-    matFree(matC);
-    matFree(matX);
+    //matFree(matC);
+    //matFree(matX);
 
     return 0;
 }

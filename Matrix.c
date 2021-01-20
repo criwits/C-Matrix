@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include <math.h>
 
 
 MATRIX matCreate(int height, int width)
@@ -43,6 +43,24 @@ void matPrint(MATRIX matMatrix)
         printf(" ]\n");
     }
     errno = 0;
+}
+
+
+int matIsZeroMatrix(MATRIX matOrigin)
+{
+    for (int i = 0; i < matOrigin.matHeight; i++)
+    {
+        for (int j = 0; j < matOrigin.matWidth; j++)
+        {
+            if (fabs(matOrigin.matData[i][j]) > EPS)
+            {
+                errno = 0;
+                return 0;
+            }
+        }
+    }
+    errno = 0;
+    return 1;
 }
 
 MATRIX matTranspose(MATRIX matOrigin)
@@ -119,13 +137,13 @@ MATRIX matConvolute(MATRIX matOrigin, MATRIX matConvKernel)
     return matConvoluted;
 }
 
-void matMakeRandom(MATRIX* matInput, int randMax)
+void matMakeRandom(MATRIX matInput, int randMax)
 {
-    for (int i = 0; i < matInput->matHeight; i++)
+    for (int i = 0; i < matInput.matHeight; i++)
     {
-        for (int j = 0; j < matInput->matWidth; j++)
+        for (int j = 0; j < matInput.matWidth; j++)
         {
-            matInput->matData[i][j] = rand() % randMax;
+            matInput.matData[i][j] = rand() % randMax;
         }
     }
     errno = 0;
@@ -212,7 +230,7 @@ MATRIX_TYPE matDeterminant(MATRIX matMatrix)
     if (matMatrix.matHeight != matMatrix.matWidth)
     {
         errno = 1;
-        return 0.00;
+        return 0;
     }
     int* indexList = (int*)malloc(matMatrix.matHeight * sizeof(int));
     for (int i = 0; i < matMatrix.matHeight; i++)
@@ -298,9 +316,127 @@ MATRIX matDivide(MATRIX matOrigin, MATRIX_TYPE operateNumber)
 
 MATRIX matInverse(MATRIX matOrigin)
 {
+    int det = matDeterminant(matOrigin);
+    if (!det)
+    {
+        MATRIX matNull;
+        matNull.matHeight = 0;
+        matNull.matWidth = 0;
+        matNull.matData = NULL;
+        errno = 1;
+        return matNull;
+    }
     MATRIX matAdjugated = matAdjugate(matOrigin);
-    MATRIX matInversed = matDivide(matAdjugated, matDeterminant(matOrigin));
+    MATRIX matInversed = matDivide(matAdjugated, det);
     matFree(matAdjugated);
     errno = 0;
     return matInversed;
+}
+
+void matEchelon(MATRIX matOrigin, int startRow, int startColumn)
+{
+    if (startRow == matOrigin.matHeight || startColumn == matOrigin.matWidth)
+    {
+        return;
+    }
+    int initColumn = startColumn;
+    for (int i = startColumn; i < matOrigin.matWidth; i++)
+    {
+        _Bool flagIsZeroColumn = 1;
+        for (int j = startRow; j < matOrigin.matHeight; j++)
+        {
+            if (fabs(matOrigin.matData[j][i]) > EPS)
+            {
+                flagIsZeroColumn = 0;
+                break;
+            }
+        }
+        if (!flagIsZeroColumn)
+        {
+            break;
+        }
+        initColumn++;
+    }
+
+    int initRow;
+    for (int i = startRow; i < matOrigin.matHeight; i++)
+    {
+        if (fabs(matOrigin.matData[i][initColumn]) > EPS)
+        {
+            initRow = i;
+            break;
+        }
+    }
+
+    if (initRow != startRow)
+    {
+        MATRIX_TYPE exchangeTemp;
+
+        for (int i = initColumn; i < matOrigin.matWidth; i++)
+        {
+            exchangeTemp = matOrigin.matData[initRow][i];
+            matOrigin.matData[initRow][i] = matOrigin.matData[startRow][i];
+            matOrigin.matData[startRow][i] = exchangeTemp;
+        }
+    }
+
+    MATRIX_TYPE ratioTemp;
+
+    for (int i = startRow + 1; i < matOrigin.matHeight; i++)
+    {
+        ratioTemp = matOrigin.matData[i][initColumn] / matOrigin.matData[startRow][initColumn];
+        for (int j = initColumn; j < matOrigin.matWidth; j++)
+        {
+            matOrigin.matData[i][j] -= matOrigin.matData[startRow][j] * ratioTemp;
+        }
+    }
+
+    matEchelon(matOrigin, startRow + 1, initColumn + 1);
+}
+
+MATRIX matMakeEchelon(MATRIX matOrigin)
+{
+    MATRIX matE = matCreate(matOrigin.matHeight, matOrigin.matWidth);
+    if (matIsZeroMatrix(matOrigin))
+    {
+        return matE;
+    }
+    for (int i = 0; i < matOrigin.matHeight; i++)
+    {
+        for (int j = 0; j < matOrigin.matWidth; j++)
+        {
+            matE.matData[i][j] = matOrigin.matData[i][j];
+        }
+    }
+
+    matEchelon(matE, 0, 0);
+
+    errno = 0;
+    return matE;
+}
+
+int matRank(MATRIX matMatrix)
+{
+    MATRIX matE = matMakeEchelon(matMatrix);
+    _Bool flagIsZeroRow;
+    int i;
+    for (i = 0; i < matE.matHeight; i++)
+    {
+        flagIsZeroRow = 1;
+        for (int j = 0; j < matE.matWidth; j++)
+        {
+            if (fabs(matE.matData[i][j]) > EPS)
+            {
+                flagIsZeroRow = 0;
+                break;
+            }
+        }
+        if (flagIsZeroRow)
+        {
+            break;
+        }
+    }
+    matFree(matE);
+    errno = 0;
+    return i;
 }
