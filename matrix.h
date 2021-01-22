@@ -1,19 +1,19 @@
-/* matrix.h - C-Matrix ÏîÄ¿Í·ÎÄ¼ş
+/* matrix.h - C-Matrix é¡¹ç›®å¤´æ–‡ä»¶
  * (C) Hans Wan.
- * ×ñÑ­ Mozilla Public License ·¢²¼¡£
+ * éµå¾ª Mozilla Public License å‘å¸ƒã€‚
  */
 
 #ifndef MATRIX_H
 #define MATRIX_H
 
-// Ê¹ÓÃ matPrint() Ê± printf ÖĞµÄÕ¼Î»·û£¬Çë±£³ÖÀàĞÍÓë MATRIX_TYPE Ò»ÖÂ
+// ä½¿ç”¨ matPrint() æ—¶ printf ä¸­çš„å ä½ç¬¦ï¼Œè¯·ä¿æŒç±»å‹ä¸ MATRIX_TYPE ä¸€è‡´
 #define PRINT_PLACEHOLDER "%7.2f "
-// ¾ØÕóÖĞÊı×ÖµÄÀàĞÍ£¬½¨ÒéÊ¹ÓÃ float »òÕß double
+// çŸ©é˜µä¸­æ•°å­—çš„ç±»å‹ï¼Œå»ºè®®ä½¿ç”¨ float æˆ–è€… double
 #define MATRIX_TYPE float
-// ¾«¶È·¶Î§
+// ç²¾åº¦èŒƒå›´
 #define EPS 1e-5
 
-// ¾ØÕó½á¹¹Ìå£¬ÓÉĞĞÊı¡¢ÁĞÊıºÍ¾ØÕó±¾ÌåµÄ¶şÎ¬Ö¸Õë×é³É
+// çŸ©é˜µç»“æ„ä½“ï¼Œç”±è¡Œæ•°ã€åˆ—æ•°å’ŒçŸ©é˜µæœ¬ä½“çš„äºŒç»´æŒ‡é’ˆç»„æˆ
 typedef struct
 {
     int matHeight;
@@ -21,41 +21,41 @@ typedef struct
     MATRIX_TYPE** matData;
 } MATRIX;
 
-/** ÒÔÏÂº¯ÊıÕë¶ÔÏÖÓĞµÄ MATRIX ±äÁ¿²Ù×÷ **/
-// ÊÍ·Å¾ØÕóÄÚ´æ¿Õ¼ä
+/** ä»¥ä¸‹å‡½æ•°é’ˆå¯¹ç°æœ‰çš„ MATRIX å˜é‡æ“ä½œ **/
+// é‡Šæ”¾çŸ©é˜µå†…å­˜ç©ºé—´
 void matFree(MATRIX* matMatrix);
-// ´òÓ¡¾ØÕó
+// æ‰“å°çŸ©é˜µ
 void matPrint(MATRIX matMatrix);
-// Ëæ»ú»¯¾ØÕó
+// éšæœºåŒ–çŸ©é˜µ
 void matMakeRandom(MATRIX matInput, int randMax);
 
-/** ÒÔÏÂº¯Êı¼ÆËãÏÖÓĞ MATRIX µÄÄ³ÖÖÖµ **/
-// ÅĞ¶Ï¾ØÕóÊÇ·ñÎª 0 ¾ØÕó
+/** ä»¥ä¸‹å‡½æ•°è®¡ç®—ç°æœ‰ MATRIX çš„æŸç§å€¼ **/
+// åˆ¤æ–­çŸ©é˜µæ˜¯å¦ä¸º 0 çŸ©é˜µ
 int matIsZeroMatrix(MATRIX matOrigin);
-// ¼ÆËã¾ØÕóµÄÖÈ
+// è®¡ç®—çŸ©é˜µçš„ç§©
 int matRank(MATRIX matMatrix);
-// ¼ÆËã¾ØÕóµÄĞĞÁĞÊ½
+// è®¡ç®—çŸ©é˜µçš„è¡Œåˆ—å¼
 MATRIX_TYPE matDeterminant(MATRIX matMatrix);
 
-/** ÒÔÏÂº¯Êı¼ÆËã³öÒ»¸öĞÂµÄ MATRIX ±äÁ¿ **/
-// ´´½¨¾ØÕó
+/** ä»¥ä¸‹å‡½æ•°è®¡ç®—å‡ºä¸€ä¸ªæ–°çš„ MATRIX å˜é‡ **/
+// åˆ›å»ºçŸ©é˜µ
 MATRIX matCreate(int height, int width);
-// ×ªÖÃ¾ØÕó
+// è½¬ç½®çŸ©é˜µ
 MATRIX matTranspose(MATRIX matOrigin);
-// ¾ØÕó³Ë»ı
+// çŸ©é˜µä¹˜ç§¯
 MATRIX matProduct(MATRIX matA, MATRIX matB);
-// ¾ØÕó¾í»ı
+// çŸ©é˜µå·ç§¯
 MATRIX matConvolute(MATRIX matOrigin, MATRIX matConvKernel);
-// Çó¾ØÕóÓà×ÓÊ½¶ÔÓ¦µÄ¾ØÕó
+// æ±‚çŸ©é˜µä½™å­å¼å¯¹åº”çš„çŸ©é˜µ
 MATRIX matCominor(MATRIX matOrigin, int row, int column);
-// Çó°éËæ¾ØÕó
+// æ±‚ä¼´éšçŸ©é˜µ
 MATRIX matAdjugate(MATRIX matOrigin);
-// ¾ØÕóÊı³Ë£¨³ı£©
+// çŸ©é˜µæ•°ä¹˜ï¼ˆé™¤ï¼‰
 MATRIX matMultiply(MATRIX matOrigin, MATRIX_TYPE operateNumber);
 MATRIX matDivide(MATRIX matOrigin, MATRIX_TYPE operateNumber);
-// ÇóÄæ¾ØÕó
+// æ±‚é€†çŸ©é˜µ
 MATRIX matInverse(MATRIX matOrigin);
-// ÇóĞĞ½×ÌİĞÍ¾ØÕó
+// æ±‚è¡Œé˜¶æ¢¯å‹çŸ©é˜µ
 MATRIX matMakeEchelon(MATRIX matOrigin);
 
 #endif
