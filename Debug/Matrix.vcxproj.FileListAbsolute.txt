@@ -1,2 +1,0 @@
-D:\VS\Matrix\Debug\Matrix.exe
-D:\VS\Matrix\Debug\Matrix.pdb

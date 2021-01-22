@@ -1,3 +1,8 @@
 ﻿  main.c
-D:\GitHub\C-Matrix\main.c(13,18): warning C4244: “函数”: 从“time_t”转换到“unsigned int”，可能丢失数据
+D:\GitHub\C-Matrix\main.c(16,18): warning C4244: “函数”: 从“time_t”转换到“unsigned int”，可能丢失数据
+  matrix.c
+D:\GitHub\C-Matrix\matrix.c(158,54): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+D:\GitHub\C-Matrix\matrix.c(361,53): warning C4244: “函数”: 从“int”转换到“float”，可能丢失数据
+D:\GitHub\C-Matrix\matrix.c(350,1): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
+  正在生成代码...
   Matrix.vcxproj -> D:\GitHub\C-Matrix\x64\Debug\Matrix.exe

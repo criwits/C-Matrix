@@ -1,3 +1,8 @@
+/* matrix.c - C-Matrix 项目源文件
+ * (C) Hans Wan.
+ * 遵循 Mozilla Public License 发布。
+ */
+
 #include "matrix.h"
 #include <malloc.h>
 #include <stdio.h>
@@ -5,7 +10,7 @@
 #include <string.h>
 #include <math.h>
 
-
+// 创建矩阵函数，返回一个指定行数和列数，并且值为 0 的矩阵变量。
 MATRIX matCreate(int height, int width)
 {
     MATRIX matMatrix;
@@ -21,16 +26,19 @@ MATRIX matCreate(int height, int width)
     return matMatrix;
 }
 
-void matFree(MATRIX matMatrix)
+// 释放矩阵内存空间函数，会释放指定的矩阵变量中动态数组占用的内存空间，并将原本指向它的指针变成空指针。
+void matFree(MATRIX* matMatrix)
 {
-    for (int i = 0; i < matMatrix.matHeight; i++)
+    for (int i = 0; i < matMatrix->matHeight; i++)
     {
-        free(matMatrix.matData[i]);
+        free(matMatrix->matData[i]);
     }
-    free(matMatrix.matData);
+    free(matMatrix->matData);
+    matMatrix->matData = NULL;
     errno = 0;
 }
 
+// 打印矩阵函数，以一种可读的方式打印指定的矩阵。
 void matPrint(MATRIX matMatrix)
 {
     for (int i = 0; i < matMatrix.matHeight; i++)
@@ -45,7 +53,7 @@ void matPrint(MATRIX matMatrix)
     errno = 0;
 }
 
-
+// 判断一个矩阵是否为 0 矩阵。
 int matIsZeroMatrix(MATRIX matOrigin)
 {
     for (int i = 0; i < matOrigin.matHeight; i++)
@@ -63,6 +71,7 @@ int matIsZeroMatrix(MATRIX matOrigin)
     return 1;
 }
 
+// 转置矩阵函数，输入一个矩阵，返回它的转置矩阵。
 MATRIX matTranspose(MATRIX matOrigin)
 {
     MATRIX matTrans = matCreate(matOrigin.matWidth, matOrigin.matHeight);
@@ -77,6 +86,7 @@ MATRIX matTranspose(MATRIX matOrigin)
     return matTrans;
 }
 
+// 矩阵乘积函数，返回 matA 和 matB 的乘积。如果不可乘，返回长宽为 0 的空矩阵。
 MATRIX matProduct(MATRIX matA, MATRIX matB)
 {
     if (matA.matWidth != matB.matHeight)
@@ -103,6 +113,7 @@ MATRIX matProduct(MATRIX matA, MATRIX matB)
     return matAnswer;
 }
 
+// 矩阵卷积函数，输入原矩阵和卷积核，返回卷积之后的矩阵。其中，对于边界，采取扩展边界用 0 填充的策略。如果卷积核行数或列数非奇数，返回空矩阵。
 MATRIX matConvolute(MATRIX matOrigin, MATRIX matConvKernel)
 {
     if (!(matConvKernel.matHeight % 2 == 1 && matConvKernel.matWidth % 2 == 1))
@@ -137,6 +148,7 @@ MATRIX matConvolute(MATRIX matOrigin, MATRIX matConvKernel)
     return matConvoluted;
 }
 
+// 随机化矩阵函数，指定一个矩阵，将它用小于 randMax 的整数填充。仅供测试用。
 void matMakeRandom(MATRIX matInput, int randMax)
 {
     for (int i = 0; i < matInput.matHeight; i++)
@@ -149,6 +161,7 @@ void matMakeRandom(MATRIX matInput, int randMax)
     errno = 0;
 }
 
+// 归并数组函数，配合 mergeSort() 使用，实现归并排序的同时计算数列的逆序数。
 void mergeArray(int* a, int first, int mid, int last, int* count)
 {
     int* temp = (int*)malloc((last - first + 1) * sizeof(int));
@@ -172,6 +185,7 @@ void mergeArray(int* a, int first, int mid, int last, int* count)
     free(temp);
 }
 
+// 归并排序函数，目的并不是排序，而是算逆序数。
 void mergeSort(int* a, int first, int last, int* count)
 {
     if (first < last)
@@ -183,6 +197,7 @@ void mergeSort(int* a, int first, int last, int* count)
     }
 }
 
+// 算数列逆序数的函数，配合上面两个函数使用，实现“求逆序数”过程的封装。
 int getReversedNumber(const int* numList, int num)
 {
     int* tempList = (int*)malloc(num * sizeof(int));
@@ -196,6 +211,7 @@ int getReversedNumber(const int* numList, int num)
     return reversedNumber;
 }
 
+// 生成全排列的函数，这是一个递归函数，通过递归方式逐级获得一个数列的每一种排列。
 void makePermutation(int* numList, int first, int last, MATRIX_TYPE* tempAnswer, MATRIX matMatrix)
 {
     if (first == last)
@@ -225,6 +241,7 @@ void makePermutation(int* numList, int first, int last, MATRIX_TYPE* tempAnswer,
     }
 }
 
+// 求行列式的函数，是上面 4 个函数的功能性封装。如果输入的矩阵行列数不相等，返回 0。
 MATRIX_TYPE matDeterminant(MATRIX matMatrix)
 {
     if (matMatrix.matHeight != matMatrix.matWidth)
@@ -244,8 +261,18 @@ MATRIX_TYPE matDeterminant(MATRIX matMatrix)
     return answer;
 }
 
+// 求余子式对应矩阵的函数，也就是求一个矩阵去掉某行某列之后的矩阵。如果那一行或者那一列不存在，返回空矩阵。
 MATRIX matCominor(MATRIX matOrigin, int row, int column)
 {
+    if (row < 0 || column < 0 || row >= matOrigin.matHeight || column >= matOrigin.matWidth)
+    {
+        MATRIX matNull;
+        matNull.matHeight = 0;
+        matNull.matWidth = 0;
+        matNull.matData = NULL;
+        errno = 1;
+        return matNull;
+    }
     MATRIX matCominorMatrix = matCreate(matOrigin.matHeight - 1, matOrigin.matWidth - 1);
     for (int i = 0, k = 0; i < matOrigin.matHeight; i++)
     {
@@ -268,6 +295,7 @@ MATRIX matCominor(MATRIX matOrigin, int row, int column)
     return matCominorMatrix;
 }
 
+// 求伴随矩阵的函数。
 MATRIX matAdjugate(MATRIX matOrigin)
 {
     MATRIX matAdjugateT = matCreate(matOrigin.matHeight, matOrigin.matWidth);
@@ -277,15 +305,16 @@ MATRIX matAdjugate(MATRIX matOrigin)
         {
             MATRIX matTempCominor = matCominor(matOrigin, i, j);
             matAdjugateT.matData[i][j] = ((i + j) % 2 == 1 ? -1 : 1) * matDeterminant(matTempCominor);
-            matFree(matTempCominor);
+            matFree(&matTempCominor);
         }
     }
     errno = 0;
     MATRIX matAdjugate = matTranspose(matAdjugateT);
-    matFree(matAdjugateT);
+    matFree(&matAdjugateT);
     return matAdjugate;
 }
 
+// 求矩阵数乘。
 MATRIX matMultiply(MATRIX matOrigin, MATRIX_TYPE operateNumber)
 {
     MATRIX matAnswer = matCreate(matOrigin.matHeight, matOrigin.matWidth);
@@ -300,6 +329,7 @@ MATRIX matMultiply(MATRIX matOrigin, MATRIX_TYPE operateNumber)
     return matAnswer;
 }
 
+// 求矩阵“数除”。
 MATRIX matDivide(MATRIX matOrigin, MATRIX_TYPE operateNumber)
 {
     MATRIX matAnswer = matCreate(matOrigin.matHeight, matOrigin.matWidth);
@@ -314,6 +344,7 @@ MATRIX matDivide(MATRIX matOrigin, MATRIX_TYPE operateNumber)
     return matAnswer;
 }
 
+// 求逆矩阵，如果行列式为 0，或者矩阵不是方阵，返回空矩阵。
 MATRIX matInverse(MATRIX matOrigin)
 {
     int det = matDeterminant(matOrigin);
@@ -328,11 +359,12 @@ MATRIX matInverse(MATRIX matOrigin)
     }
     MATRIX matAdjugated = matAdjugate(matOrigin);
     MATRIX matInversed = matDivide(matAdjugated, det);
-    matFree(matAdjugated);
+    matFree(&matAdjugated);
     errno = 0;
     return matInversed;
 }
 
+// 求行阶梯型矩阵的辅助函数，是一个递归函数。
 void matEchelon(MATRIX matOrigin, int startRow, int startColumn)
 {
     if (startRow == matOrigin.matHeight || startColumn == matOrigin.matWidth)
@@ -394,6 +426,7 @@ void matEchelon(MATRIX matOrigin, int startRow, int startColumn)
     matEchelon(matOrigin, startRow + 1, initColumn + 1);
 }
 
+// 求一个矩阵变换成的行阶梯型矩阵的函数。
 MATRIX matMakeEchelon(MATRIX matOrigin)
 {
     MATRIX matE = matCreate(matOrigin.matHeight, matOrigin.matWidth);
@@ -415,6 +448,7 @@ MATRIX matMakeEchelon(MATRIX matOrigin)
     return matE;
 }
 
+// 求矩阵的秩的函数。
 int matRank(MATRIX matMatrix)
 {
     MATRIX matE = matMakeEchelon(matMatrix);
@@ -436,7 +470,7 @@ int matRank(MATRIX matMatrix)
             break;
         }
     }
-    matFree(matE);
+    matFree(&matE);
     errno = 0;
     return i;
 }

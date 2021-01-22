@@ -1,19 +1,29 @@
+/* matrix.h - C-Matrix 项目头文件
+ * (C) Hans Wan.
+ * 遵循 Mozilla Public License 发布。
+ */
+
 #ifndef MATRIX_H
 #define MATRIX_H
 
+// 使用 matPrint() 时 printf 中的占位符，请保持类型与 MATRIX_TYPE 一致
 #define PRINT_PLACEHOLDER "%7.2f "
+// 矩阵中数字的类型，建议使用 float 或者 double
 #define MATRIX_TYPE float
+// 精度范围
 #define EPS 1e-5
 
+// 矩阵结构体，由行数、列数和矩阵本体的二维指针组成
 typedef struct
 {
     int matHeight;
     int matWidth;
     MATRIX_TYPE** matData;
 } MATRIX;
+
 /** 以下函数针对现有的 MATRIX 变量操作 **/
 // 释放矩阵内存空间
-void matFree(MATRIX matMatrix);
+void matFree(MATRIX* matMatrix);
 // 打印矩阵
 void matPrint(MATRIX matMatrix);
 // 随机化矩阵

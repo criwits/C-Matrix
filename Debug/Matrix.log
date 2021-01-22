@@ -1,6 +1,0 @@
-﻿  Matrix.c
-  main.c
-D:\VS\Matrix\main.c(10,17): warning C4273: “_errno”: dll 链接不一致
-D:\Windows Kits\10\Include\10.0.18362.0\ucrt\stddef.h(31,27): message : 参见“_errno”的前一个定义
-  正在生成代码...
-  Matrix.vcxproj -> D:\VS\Matrix\Debug\Matrix.exe
