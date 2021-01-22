@@ -1,6 +1,6 @@
-/* matrix.c - C-Matrix ÏîÄ¿Ô´ÎÄ¼ş
+/* matrix.c - C-Matrix é¡¹ç›®æºæ–‡ä»¶
  * (C) Hans Wan.
- * ×ñÑ­ Mozilla Public License ·¢²¼¡£
+ * éµå¾ª Mozilla Public License å‘å¸ƒã€‚
  */
 
 #include "matrix.h"
@@ -10,7 +10,7 @@
 #include <string.h>
 #include <math.h>
 
-// ´´½¨¾ØÕóº¯Êı£¬·µ»ØÒ»¸öÖ¸¶¨ĞĞÊıºÍÁĞÊı£¬²¢ÇÒÖµÎª 0 µÄ¾ØÕó±äÁ¿¡£
+// åˆ›å»ºçŸ©é˜µå‡½æ•°ï¼Œè¿”å›ä¸€ä¸ªæŒ‡å®šè¡Œæ•°å’Œåˆ—æ•°ï¼Œå¹¶ä¸”å€¼ä¸º 0 çš„çŸ©é˜µå˜é‡ã€‚
 MATRIX matCreate(int height, int width)
 {
     MATRIX matMatrix;
@@ -26,7 +26,7 @@ MATRIX matCreate(int height, int width)
     return matMatrix;
 }
 
-// ÊÍ·Å¾ØÕóÄÚ´æ¿Õ¼äº¯Êı£¬»áÊÍ·ÅÖ¸¶¨µÄ¾ØÕó±äÁ¿ÖĞ¶¯Ì¬Êı×éÕ¼ÓÃµÄÄÚ´æ¿Õ¼ä£¬²¢½«Ô­±¾Ö¸ÏòËüµÄÖ¸Õë±ä³É¿ÕÖ¸Õë¡£
+// é‡Šæ”¾çŸ©é˜µå†…å­˜ç©ºé—´å‡½æ•°ï¼Œä¼šé‡Šæ”¾æŒ‡å®šçš„çŸ©é˜µå˜é‡ä¸­åŠ¨æ€æ•°ç»„å ç”¨çš„å†…å­˜ç©ºé—´ï¼Œå¹¶å°†åŸæœ¬æŒ‡å‘å®ƒçš„æŒ‡é’ˆå˜æˆç©ºæŒ‡é’ˆã€‚
 void matFree(MATRIX* matMatrix)
 {
     for (int i = 0; i < matMatrix->matHeight; i++)
@@ -38,7 +38,7 @@ void matFree(MATRIX* matMatrix)
     errno = 0;
 }
 
-// ´òÓ¡¾ØÕóº¯Êı£¬ÒÔÒ»ÖÖ¿É¶ÁµÄ·½Ê½´òÓ¡Ö¸¶¨µÄ¾ØÕó¡£
+// æ‰“å°çŸ©é˜µå‡½æ•°ï¼Œä»¥ä¸€ç§å¯è¯»çš„æ–¹å¼æ‰“å°æŒ‡å®šçš„çŸ©é˜µã€‚
 void matPrint(MATRIX matMatrix)
 {
     for (int i = 0; i < matMatrix.matHeight; i++)
@@ -53,7 +53,7 @@ void matPrint(MATRIX matMatrix)
     errno = 0;
 }
 
-// ÅĞ¶ÏÒ»¸ö¾ØÕóÊÇ·ñÎª 0 ¾ØÕó¡£
+// åˆ¤æ–­ä¸€ä¸ªçŸ©é˜µæ˜¯å¦ä¸º 0 çŸ©é˜µã€‚
 int matIsZeroMatrix(MATRIX matOrigin)
 {
     for (int i = 0; i < matOrigin.matHeight; i++)
@@ -71,7 +71,7 @@ int matIsZeroMatrix(MATRIX matOrigin)
     return 1;
 }
 
-// ×ªÖÃ¾ØÕóº¯Êı£¬ÊäÈëÒ»¸ö¾ØÕó£¬·µ»ØËüµÄ×ªÖÃ¾ØÕó¡£
+// è½¬ç½®çŸ©é˜µå‡½æ•°ï¼Œè¾“å…¥ä¸€ä¸ªçŸ©é˜µï¼Œè¿”å›å®ƒçš„è½¬ç½®çŸ©é˜µã€‚
 MATRIX matTranspose(MATRIX matOrigin)
 {
     MATRIX matTrans = matCreate(matOrigin.matWidth, matOrigin.matHeight);
@@ -86,7 +86,7 @@ MATRIX matTranspose(MATRIX matOrigin)
     return matTrans;
 }
 
-// ¾ØÕó³Ë»ıº¯Êı£¬·µ»Ø matA ºÍ matB µÄ³Ë»ı¡£Èç¹û²»¿É³Ë£¬·µ»Ø³¤¿íÎª 0 µÄ¿Õ¾ØÕó¡£
+// çŸ©é˜µä¹˜ç§¯å‡½æ•°ï¼Œè¿”å› matA å’Œ matB çš„ä¹˜ç§¯ã€‚å¦‚æœä¸å¯ä¹˜ï¼Œè¿”å›é•¿å®½ä¸º 0 çš„ç©ºçŸ©é˜µã€‚
 MATRIX matProduct(MATRIX matA, MATRIX matB)
 {
     if (matA.matWidth != matB.matHeight)
@@ -113,7 +113,7 @@ MATRIX matProduct(MATRIX matA, MATRIX matB)
     return matAnswer;
 }
 
-// ¾ØÕó¾í»ıº¯Êı£¬ÊäÈëÔ­¾ØÕóºÍ¾í»ıºË£¬·µ»Ø¾í»ıÖ®ºóµÄ¾ØÕó¡£ÆäÖĞ£¬¶ÔÓÚ±ß½ç£¬²ÉÈ¡À©Õ¹±ß½çÓÃ 0 Ìî³äµÄ²ßÂÔ¡£Èç¹û¾í»ıºËĞĞÊı»òÁĞÊı·ÇÆæÊı£¬·µ»Ø¿Õ¾ØÕó¡£
+// çŸ©é˜µå·ç§¯å‡½æ•°ï¼Œè¾“å…¥åŸçŸ©é˜µå’Œå·ç§¯æ ¸ï¼Œè¿”å›å·ç§¯ä¹‹åçš„çŸ©é˜µã€‚å…¶ä¸­ï¼Œå¯¹äºè¾¹ç•Œï¼Œé‡‡å–æ‰©å±•è¾¹ç•Œç”¨ 0 å¡«å……çš„ç­–ç•¥ã€‚å¦‚æœå·ç§¯æ ¸è¡Œæ•°æˆ–åˆ—æ•°éå¥‡æ•°ï¼Œè¿”å›ç©ºçŸ©é˜µã€‚
 MATRIX matConvolute(MATRIX matOrigin, MATRIX matConvKernel)
 {
     if (!(matConvKernel.matHeight % 2 == 1 && matConvKernel.matWidth % 2 == 1))
@@ -148,7 +148,7 @@ MATRIX matConvolute(MATRIX matOrigin, MATRIX matConvKernel)
     return matConvoluted;
 }
 
-// Ëæ»ú»¯¾ØÕóº¯Êı£¬Ö¸¶¨Ò»¸ö¾ØÕó£¬½«ËüÓÃĞ¡ÓÚ randMax µÄÕûÊıÌî³ä¡£½ö¹©²âÊÔÓÃ¡£
+// éšæœºåŒ–çŸ©é˜µå‡½æ•°ï¼ŒæŒ‡å®šä¸€ä¸ªçŸ©é˜µï¼Œå°†å®ƒç”¨å°äº randMax çš„æ•´æ•°å¡«å……ã€‚ä»…ä¾›æµ‹è¯•ç”¨ã€‚
 void matMakeRandom(MATRIX matInput, int randMax)
 {
     for (int i = 0; i < matInput.matHeight; i++)
@@ -161,7 +161,7 @@ void matMakeRandom(MATRIX matInput, int randMax)
     errno = 0;
 }
 
-// ¹é²¢Êı×éº¯Êı£¬ÅäºÏ mergeSort() Ê¹ÓÃ£¬ÊµÏÖ¹é²¢ÅÅĞòµÄÍ¬Ê±¼ÆËãÊıÁĞµÄÄæĞòÊı¡£
+// å½’å¹¶æ•°ç»„å‡½æ•°ï¼Œé…åˆ mergeSort() ä½¿ç”¨ï¼Œå®ç°å½’å¹¶æ’åºçš„åŒæ—¶è®¡ç®—æ•°åˆ—çš„é€†åºæ•°ã€‚
 void mergeArray(int* a, int first, int mid, int last, int* count)
 {
     int* temp = (int*)malloc((last - first + 1) * sizeof(int));
@@ -185,7 +185,7 @@ void mergeArray(int* a, int first, int mid, int last, int* count)
     free(temp);
 }
 
-// ¹é²¢ÅÅĞòº¯Êı£¬Ä¿µÄ²¢²»ÊÇÅÅĞò£¬¶øÊÇËãÄæĞòÊı¡£
+// å½’å¹¶æ’åºå‡½æ•°ï¼Œç›®çš„å¹¶ä¸æ˜¯æ’åºï¼Œè€Œæ˜¯ç®—é€†åºæ•°ã€‚
 void mergeSort(int* a, int first, int last, int* count)
 {
     if (first < last)
@@ -197,7 +197,7 @@ void mergeSort(int* a, int first, int last, int* count)
     }
 }
 
-// ËãÊıÁĞÄæĞòÊıµÄº¯Êı£¬ÅäºÏÉÏÃæÁ½¸öº¯ÊıÊ¹ÓÃ£¬ÊµÏÖ¡°ÇóÄæĞòÊı¡±¹ı³ÌµÄ·â×°¡£
+// ç®—æ•°åˆ—é€†åºæ•°çš„å‡½æ•°ï¼Œé…åˆä¸Šé¢ä¸¤ä¸ªå‡½æ•°ä½¿ç”¨ï¼Œå®ç°â€œæ±‚é€†åºæ•°â€è¿‡ç¨‹çš„å°è£…ã€‚
 int getReversedNumber(const int* numList, int num)
 {
     int* tempList = (int*)malloc(num * sizeof(int));
@@ -211,7 +211,7 @@ int getReversedNumber(const int* numList, int num)
     return reversedNumber;
 }
 
-// Éú³ÉÈ«ÅÅÁĞµÄº¯Êı£¬ÕâÊÇÒ»¸öµİ¹éº¯Êı£¬Í¨¹ıµİ¹é·½Ê½Öğ¼¶»ñµÃÒ»¸öÊıÁĞµÄÃ¿Ò»ÖÖÅÅÁĞ¡£
+// ç”Ÿæˆå…¨æ’åˆ—çš„å‡½æ•°ï¼Œè¿™æ˜¯ä¸€ä¸ªé€’å½’å‡½æ•°ï¼Œé€šè¿‡é€’å½’æ–¹å¼é€çº§è·å¾—ä¸€ä¸ªæ•°åˆ—çš„æ¯ä¸€ç§æ’åˆ—ã€‚
 void makePermutation(int* numList, int first, int last, MATRIX_TYPE* tempAnswer, MATRIX matMatrix)
 {
     if (first == last)
@@ -241,7 +241,7 @@ void makePermutation(int* numList, int first, int last, MATRIX_TYPE* tempAnswer,
     }
 }
 
-// ÇóĞĞÁĞÊ½µÄº¯Êı£¬ÊÇÉÏÃæ 4 ¸öº¯ÊıµÄ¹¦ÄÜĞÔ·â×°¡£Èç¹ûÊäÈëµÄ¾ØÕóĞĞÁĞÊı²»ÏàµÈ£¬·µ»Ø 0¡£
+// æ±‚è¡Œåˆ—å¼çš„å‡½æ•°ï¼Œæ˜¯ä¸Šé¢ 4 ä¸ªå‡½æ•°çš„åŠŸèƒ½æ€§å°è£…ã€‚å¦‚æœè¾“å…¥çš„çŸ©é˜µè¡Œåˆ—æ•°ä¸ç›¸ç­‰ï¼Œè¿”å› 0ã€‚
 MATRIX_TYPE matDeterminant(MATRIX matMatrix)
 {
     if (matMatrix.matHeight != matMatrix.matWidth)
@@ -261,7 +261,7 @@ MATRIX_TYPE matDeterminant(MATRIX matMatrix)
     return answer;
 }
 
-// ÇóÓà×ÓÊ½¶ÔÓ¦¾ØÕóµÄº¯Êı£¬Ò²¾ÍÊÇÇóÒ»¸ö¾ØÕóÈ¥µôÄ³ĞĞÄ³ÁĞÖ®ºóµÄ¾ØÕó¡£Èç¹ûÄÇÒ»ĞĞ»òÕßÄÇÒ»ÁĞ²»´æÔÚ£¬·µ»Ø¿Õ¾ØÕó¡£
+// æ±‚ä½™å­å¼å¯¹åº”çŸ©é˜µçš„å‡½æ•°ï¼Œä¹Ÿå°±æ˜¯æ±‚ä¸€ä¸ªçŸ©é˜µå»æ‰æŸè¡ŒæŸåˆ—ä¹‹åçš„çŸ©é˜µã€‚å¦‚æœé‚£ä¸€è¡Œæˆ–è€…é‚£ä¸€åˆ—ä¸å­˜åœ¨ï¼Œè¿”å›ç©ºçŸ©é˜µã€‚
 MATRIX matCominor(MATRIX matOrigin, int row, int column)
 {
     if (row < 0 || column < 0 || row >= matOrigin.matHeight || column >= matOrigin.matWidth)
@@ -295,7 +295,7 @@ MATRIX matCominor(MATRIX matOrigin, int row, int column)
     return matCominorMatrix;
 }
 
-// Çó°éËæ¾ØÕóµÄº¯Êı¡£
+// æ±‚ä¼´éšçŸ©é˜µçš„å‡½æ•°ã€‚
 MATRIX matAdjugate(MATRIX matOrigin)
 {
     MATRIX matAdjugateT = matCreate(matOrigin.matHeight, matOrigin.matWidth);
@@ -314,7 +314,7 @@ MATRIX matAdjugate(MATRIX matOrigin)
     return matAdjugate;
 }
 
-// Çó¾ØÕóÊı³Ë¡£
+// æ±‚çŸ©é˜µæ•°ä¹˜ã€‚
 MATRIX matMultiply(MATRIX matOrigin, MATRIX_TYPE operateNumber)
 {
     MATRIX matAnswer = matCreate(matOrigin.matHeight, matOrigin.matWidth);
@@ -329,7 +329,7 @@ MATRIX matMultiply(MATRIX matOrigin, MATRIX_TYPE operateNumber)
     return matAnswer;
 }
 
-// Çó¾ØÕó¡°Êı³ı¡±¡£
+// æ±‚çŸ©é˜µâ€œæ•°é™¤â€ã€‚
 MATRIX matDivide(MATRIX matOrigin, MATRIX_TYPE operateNumber)
 {
     MATRIX matAnswer = matCreate(matOrigin.matHeight, matOrigin.matWidth);
@@ -344,7 +344,7 @@ MATRIX matDivide(MATRIX matOrigin, MATRIX_TYPE operateNumber)
     return matAnswer;
 }
 
-// ÇóÄæ¾ØÕó£¬Èç¹ûĞĞÁĞÊ½Îª 0£¬»òÕß¾ØÕó²»ÊÇ·½Õó£¬·µ»Ø¿Õ¾ØÕó¡£
+// æ±‚é€†çŸ©é˜µï¼Œå¦‚æœè¡Œåˆ—å¼ä¸º 0ï¼Œæˆ–è€…çŸ©é˜µä¸æ˜¯æ–¹é˜µï¼Œè¿”å›ç©ºçŸ©é˜µã€‚
 MATRIX matInverse(MATRIX matOrigin)
 {
     int det = matDeterminant(matOrigin);
@@ -364,7 +364,7 @@ MATRIX matInverse(MATRIX matOrigin)
     return matInversed;
 }
 
-// ÇóĞĞ½×ÌİĞÍ¾ØÕóµÄ¸¨Öúº¯Êı£¬ÊÇÒ»¸öµİ¹éº¯Êı¡£
+// æ±‚è¡Œé˜¶æ¢¯å‹çŸ©é˜µçš„è¾…åŠ©å‡½æ•°ï¼Œæ˜¯ä¸€ä¸ªé€’å½’å‡½æ•°ã€‚
 void matEchelon(MATRIX matOrigin, int startRow, int startColumn)
 {
     if (startRow == matOrigin.matHeight || startColumn == matOrigin.matWidth)
@@ -426,7 +426,7 @@ void matEchelon(MATRIX matOrigin, int startRow, int startColumn)
     matEchelon(matOrigin, startRow + 1, initColumn + 1);
 }
 
-// ÇóÒ»¸ö¾ØÕó±ä»»³ÉµÄĞĞ½×ÌİĞÍ¾ØÕóµÄº¯Êı¡£
+// æ±‚ä¸€ä¸ªçŸ©é˜µå˜æ¢æˆçš„è¡Œé˜¶æ¢¯å‹çŸ©é˜µçš„å‡½æ•°ã€‚
 MATRIX matMakeEchelon(MATRIX matOrigin)
 {
     MATRIX matE = matCreate(matOrigin.matHeight, matOrigin.matWidth);
@@ -448,7 +448,7 @@ MATRIX matMakeEchelon(MATRIX matOrigin)
     return matE;
 }
 
-// Çó¾ØÕóµÄÖÈµÄº¯Êı¡£
+// æ±‚çŸ©é˜µçš„ç§©çš„å‡½æ•°ã€‚
 int matRank(MATRIX matMatrix)
 {
     MATRIX matE = matMakeEchelon(matMatrix);
