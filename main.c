@@ -28,6 +28,7 @@ int main(void)
     printf("%d", matRank(mat));
 
     matFree(&mat);
+    matFree(&matE);
 
     return 0;
 }

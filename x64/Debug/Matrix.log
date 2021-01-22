@@ -1,6 +1,9 @@
 ﻿  main.c
+D:\GitHub\C-Matrix\matrix.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
 D:\GitHub\C-Matrix\main.c(16,18): warning C4244: “函数”: 从“time_t”转换到“unsigned int”，可能丢失数据
   matrix.c
+D:\GitHub\C-Matrix\matrix.c(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+D:\GitHub\C-Matrix\matrix.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
 D:\GitHub\C-Matrix\matrix.c(158,54): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
 D:\GitHub\C-Matrix\matrix.c(361,53): warning C4244: “函数”: 从“int”转换到“float”，可能丢失数据
 D:\GitHub\C-Matrix\matrix.c(350,1): warning C4244: “初始化”: 从“float”转换到“int”，可能丢失数据
